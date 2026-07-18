@@ -1,14 +1,16 @@
-// Получаем целевую дату — 1 января следующего года
+// =====================================================
+// ФУНКЦИЯ: Получение даты следующего Нового года
+// =====================================================
 function getNextNewYear() {
   const now = new Date();
   const currentYear = now.getFullYear();
-  // Новый год — это 1 января следующего года, 00:00:00
   return new Date(currentYear + 1, 0, 1, 0, 0, 0);
 }
 
-// Функция склонения русских слов (1 месяц, 2 месяца, 5 месяцев)
+// =====================================================
+// ФУНКЦИЯ: Склонение русских слов
+// =====================================================
 function declension(number, forms) {
-  // forms = ['месяц', 'месяца', 'месяцев']
   const n = Math.abs(number) % 100;
   const n1 = n % 10;
 
@@ -24,7 +26,9 @@ function declension(number, forms) {
   return forms[2];
 }
 
-// Вычисляем разницу между текущей датой и Новым годом
+// =====================================================
+// ФУНКЦИЯ: Вычисление разницы между датами
+// =====================================================
 function calculateTimeDifference(targetDate) {
   const now = new Date();
   let months = 0;
@@ -33,27 +37,22 @@ function calculateTimeDifference(targetDate) {
   let minutes = 0;
   let seconds = 0;
 
-  // Если Новый год уже наступил в этом году — берём следующий
   if (now >= targetDate) {
     targetDate = new Date(targetDate.getFullYear() + 1, 0, 1, 0, 0, 0);
   }
 
-  // Считаем полные месяцы
   months =
     (targetDate.getFullYear() - now.getFullYear()) * 12 +
     (targetDate.getMonth() - now.getMonth());
 
-  // Создаём промежуточную дату после добавления месяцев
   const tempDate = new Date(now);
   tempDate.setMonth(tempDate.getMonth() + months);
 
-  // Если после добавления месяцев мы "перепрыгнули" целевую дату — уменьшаем на 1
   if (tempDate > targetDate) {
     months--;
     tempDate.setMonth(tempDate.getMonth() - 1);
   }
 
-  // Считаем оставшиеся дни
   const diffMs = targetDate - tempDate;
   const totalSeconds = Math.floor(diffMs / 1000);
 
@@ -65,25 +64,31 @@ function calculateTimeDifference(targetDate) {
   return { months, days, hours, minutes, seconds };
 }
 
-// Форматируем и выводим дату Нового года
+// =====================================================
+// ФУНКЦИЯ: Форматирование целевой даты
+// =====================================================
 function formatTargetDate(targetDate) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
   return targetDate.toLocaleDateString('ru-RU', options);
 }
 
-// Обновляем таймер на странице
+// =====================================================
+// ФУНКЦИЯ: Обновление таймера на странице
+// =====================================================
 function updateTimer() {
   const targetDate = getNextNewYear();
   const time = calculateTimeDifference(targetDate);
 
-  // Обновляем значения
   document.getElementById('months').textContent = time.months;
   document.getElementById('days').textContent = time.days;
   document.getElementById('hours').textContent = time.hours;
   document.getElementById('minutes').textContent = time.minutes;
   document.getElementById('seconds').textContent = time.seconds;
 
-  // Обновляем подписи с правильным склонением
   document.getElementById('months-label').textContent = declension(
     time.months,
     ['месяц', 'месяца', 'месяцев'],
@@ -107,11 +112,91 @@ function updateTimer() {
     ['секунда', 'секунды', 'секунд'],
   );
 
-  // Показываем целевую дату
   document.getElementById('target-date').textContent =
     `🎅 Цель: ${formatTargetDate(targetDate)}`;
 }
 
-// Запускаем таймер сразу и обновляем каждую секунду
+// =====================================================
+// ФЕЙЕРВЕРКИ НАД ЛИССАБОНОМ
+// =====================================================
+
+// Создание одного фейерверка в заданной точке
+function createFirework(x, y) {
+  const fireworks = document.getElementById('fireworks');
+  const colors = [
+    '#ffd700',
+    '#ff6b6b',
+    '#4ecdc4',
+    '#ff1493',
+    '#00ff00',
+    '#ff8c00',
+  ];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+
+  // Создаём 20 частиц
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'firework';
+    particle.style.left = x + '%';
+    particle.style.top = y + '%';
+    particle.style.background = color;
+    particle.style.boxShadow = `0 0 6px ${color}`;
+
+    // Случайное направление разлёта
+    const angle = (Math.PI * 2 * i) / 20;
+    const velocity = 50 + Math.random() * 50;
+    const tx = Math.cos(angle) * velocity;
+    const ty = Math.sin(angle) * velocity;
+
+    particle.style.setProperty('--tx', `${tx}px`);
+    particle.style.setProperty('--ty', `${ty}px`);
+
+    fireworks.appendChild(particle);
+
+    // Удаляем частицу после завершения анимации
+    setTimeout(() => particle.remove(), 1500);
+  }
+}
+
+// Случайный фейерверк
+function autoFirework() {
+  const x = 10 + Math.random() * 80;
+  const y = 10 + Math.random() * 50;
+  createFirework(x, y);
+}
+
+// Проверка особых моментов (последние 10 секунд)
+function checkSpecialMoments() {
+  const time = calculateTimeDifference(getNextNewYear());
+
+  // Если до Нового года меньше 10 секунд — запускаем салют!
+  if (
+    time.seconds < 10 &&
+    time.minutes === 0 &&
+    time.hours === 0 &&
+    time.days === 0 &&
+    time.months === 0
+  ) {
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => autoFirework(), i * 300);
+    }
+  }
+}
+
+// =====================================================
+// ЗАПУСК ТАЙМЕРА И АНИМАЦИЙ
+// =====================================================
+
+// Обновляем таймер сразу и каждую секунду
 updateTimer();
 setInterval(updateTimer, 1000);
+
+// Запускаем фейерверки каждые 3 секунды (с вероятностью 60%)
+setInterval(() => {
+  if (Math.random() > 0.4) {
+    autoFirework();
+  }
+}, 3000);
+
+// Проверяем особые моменты каждую секунду
+setInterval(checkSpecialMoments, 1000);
