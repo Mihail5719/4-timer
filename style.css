@@ -70,9 +70,9 @@ body {
 /* Холмы */
 .hills {
     position: absolute;
-    bottom: 100px;
+    bottom: 180px;
     width: 100%;
-    height: 120px;
+    height: 200px;
 }
 
 .hill {
@@ -106,9 +106,9 @@ body {
 /* Здания */
 .buildings {
     position: absolute;
-    bottom: 90px;
+    bottom: 150px;
     width: 100%;
-    height: 120px;
+    height: 200px;
 }
 
 .building {
