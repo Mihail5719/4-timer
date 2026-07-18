@@ -19,9 +19,9 @@ body {
 }
 
 /* =====================================================
-   АНИМИРОВАННЫЙ ФОН
+   ФОНОВОЕ СЛАЙД-ШОУ
    ===================================================== */
-.animated-background {
+.background-slideshow {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,53 +31,30 @@ body {
     overflow: hidden;
 }
 
-/* Градиентный слой с анимацией смены цветов */
-.gradient-layer {
+.background-slide {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        45deg,
-        #1e3c72,
-        #2a5298,
-        #7e8ba3,
-        #2c5364,
-        #0f2027,
-        #1e3c72
-    );
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+.background-slide.active {
+    opacity: 1;
 }
 
-/* =====================================================
-   СНЕЖИНКИ
-   ===================================================== */
-.snow-container {
+.background-overlay {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-}
-
-.snowflake {
-    position: absolute;
-    top: -10px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh) translateX(20px);
-    }
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
 }
 
 /* =====================================================

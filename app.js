@@ -104,44 +104,57 @@ function updateTimer() {
 }
 
 // =====================================================
-// СНЕГОПАД
+// СЛАЙД-ШОУ С ФОТО ЛИССАБОНА
 // =====================================================
-function createSnowflakes() {
-    const snowContainer = document.getElementById('snow');
-    const snowflakeCount = 50; // Количество снежинок
 
-    for (let i = 0; i < snowflakeCount; i++) {
-        const snowflake = document.createElement('div');
-        snowflake.className = 'snowflake';
+const lisbonPhotos = [
+    'images/lisbon-1.jpg',
+    'images/lisbon-2.jpg',
+    'images/lisbon-3.jpg',
+    'images/lisbon-4.jpg',
+    'images/lisbon-5.jpg',
+    'images/lisbon-6.jpg'
+];
+
+let currentSlide = 0;
+
+function initSlideshow() {
+    const slideshowContainer = document.querySelector('.background-slideshow');
+    
+    // Создаём слайды
+    lisbonPhotos.forEach((photoUrl, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'background-slide';
+        slide.style.backgroundImage = `url(${photoUrl})`;
         
-        // Случайный размер снежинки (от 2 до 6 пикселей)
-        const size = Math.random() * 4 + 2;
-        snowflake.style.width = `${size}px`;
-        snowflake.style.height = `${size}px`;
+        if (index === 0) {
+            slide.classList.add('active');
+        }
         
-        // Случайная позиция по горизонтали
-        snowflake.style.left = `${Math.random() * 100}%`;
-        
-        // Случайная длительность падения (от 5 до 15 секунд)
-        const duration = Math.random() * 10 + 5;
-        snowflake.style.animationDuration = `${duration}s`;
-        
-        // Случайная задержка (чтобы снежинки не падали одновременно)
-        snowflake.style.animationDelay = `${Math.random() * 10}s`;
-        
-        // Случайная прозрачность
-        snowflake.style.opacity = Math.random() * 0.6 + 0.4;
-        
-        snowContainer.appendChild(snowflake);
-    }
+        slideshowContainer.appendChild(slide);
+    });
 }
 
-// =====================================================
-// ЗАПУСК
-// =====================================================
+function changeSlide() {
+    const slides = document.querySelectorAll('.background-slide');
+    
+    if (slides.length === 0) return;
+    
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % lisbonPhotos.length;
+    slides[currentSlide].classList.add('active');
+}
 
-// Создаём снежинки при загрузке
-createSnowflakes();
+// Запускаем слайд-шоу при загрузке
+initSlideshow();
+
+// Меняем фото каждые 8 секунд
+setInterval(changeSlide, 8000);
+
+
+// =====================================================
+// ЗАПУСК ТАЙМЕРА (ОБЯЗАТЕЛЬНО!)
+// =====================================================
 
 // Обновляем таймер сразу и каждую секунду
 updateTimer();
