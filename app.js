@@ -104,71 +104,44 @@ function updateTimer() {
 }
 
 // =====================================================
-// СЛАЙД-ШОУ ФОТО ЛИССАБОНА
+// СНЕГОПАД
 // =====================================================
+function createSnowflakes() {
+    const snowContainer = document.getElementById('snow');
+    const snowflakeCount = 50; // Количество снежинок
 
-// Фото Лиссабона с Unsplash (предновогодние и праздничные)
-const lisbonPhotos = [
-    // Замок Святого Георгия
-    'https://images.unsplash.com/photo-1555881400-744a674ad223?w=1920',
-    // Площадь Коммерции
-    'https://images.unsplash.com/photo-1585238342024-78d3811b48f7?w=1920',
-    // Трамвай 28
-    'https://images.unsplash.com/photo-1557621953-411a0810bb2a?w=1920',
-    // Башня Белен
-    'https://images.unsplash.com/photo-158258259197b0679f793cd12b465e8d?w=1920',
-    // Ночной Лиссабон
-    'https://images.unsplash.com/photo-1564595880728-2dfd1714433b?w=1920',
-    // Алфама
-    'https://images.unsplash.com/photo-15839591747bf8-5e4e67e2a9b6?w=1920',
-    // Мост 25 апреля
-    'https://images.unsplash.com/photo-1555881400-744a674ad223?w=1920',
-    // Праздничный Лиссабон
-    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920'
-];
-
-let currentSlide = 0;
-
-function initSlideshow() {
-    const slideshowContainer = document.querySelector('.background-slideshow');
-    
-    // Создаём слайды
-    lisbonPhotos.forEach((photoUrl, index) => {
-        const slide = document.createElement('div');
-        slide.className = 'background-slide';
-        slide.style.backgroundImage = `url(${photoUrl})`;
+    for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
         
-        if (index === 0) {
-            slide.classList.add('active');
-        }
+        // Случайный размер снежинки (от 2 до 6 пикселей)
+        const size = Math.random() * 4 + 2;
+        snowflake.style.width = `${size}px`;
+        snowflake.style.height = `${size}px`;
         
-        slideshowContainer.appendChild(slide);
-    });
-    
-    // Добавляем затемнение
-    const overlay = document.createElement('div');
-    overlay.className = 'background-overlay';
-    slideshowContainer.appendChild(overlay);
-}
-
-function changeSlide() {
-    const slides = document.querySelectorAll('.background-slide');
-    slides[currentSlide].classList.remove('active');
-    
-    currentSlide = (currentSlide + 1) % lisbonPhotos.length;
-    
-    slides[currentSlide].classList.add('active');
+        // Случайная позиция по горизонтали
+        snowflake.style.left = `${Math.random() * 100}%`;
+        
+        // Случайная длительность падения (от 5 до 15 секунд)
+        const duration = Math.random() * 10 + 5;
+        snowflake.style.animationDuration = `${duration}s`;
+        
+        // Случайная задержка (чтобы снежинки не падали одновременно)
+        snowflake.style.animationDelay = `${Math.random() * 10}s`;
+        
+        // Случайная прозрачность
+        snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+        
+        snowContainer.appendChild(snowflake);
+    }
 }
 
 // =====================================================
 // ЗАПУСК
 // =====================================================
 
-// Инициализация слайд-шоу
-initSlideshow();
-
-// Меняем фото каждые 8 секунд
-setInterval(changeSlide, 8000);
+// Создаём снежинки при загрузке
+createSnowflakes();
 
 // Обновляем таймер сразу и каждую секунду
 updateTimer();
