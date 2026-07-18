@@ -1,115 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таймер до Нового года — Лиссабон</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <!-- ===== ФОН: Лиссабонский силуэт ===== -->
-    <div class="lisbon-skyline" aria-hidden="true">
-
-        <!-- Звёздное небо -->
-        <div class="stars">
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-        </div>
-
-        <!-- Холмы Лиссабона (7 холмов) -->
-        <div class="hills">
-            <div class="hill hill-1"></div>
-            <div class="hill hill-2"></div>
-            <div class="hill hill-3"></div>
-        </div>
-
-        <!-- Здания -->
-        <div class="buildings">
-            <!-- Замок Святого Георгия (Castelo de São Jorge) -->
-            <div class="building castle">
-                <div class="castle-tower"></div>
-                <div class="castle-tower"></div>
-                <div class="castle-tower"></div>
-            </div>
-
-            <!-- Башня Белен (Torre de Belém) -->
-            <div class="building tower-belem">
-                <div class="tower-top"></div>
-            </div>
-
-            <!-- Дома Алфамы -->
-            <div class="building house house-1">
-                <div class="window"></div>
-            </div>
-            <div class="building house house-2">
-                <div class="window"></div>
-                <div class="window"></div>
-            </div>
-            <div class="building house house-3">
-                <div class="window"></div>
-            </div>
-            <div class="building house house-4">
-                <div class="window"></div>
-                <div class="window"></div>
-            </div>
-
-            <!-- Трамвай №28 -->
-            <div class="tram">
-                <div class="tram-window"></div>
-                <div class="tram-window"></div>
-                <div class="tram-wheel"></div>
-                <div class="tram-wheel"></div>
-            </div>
-
-            <!-- Мост 25 апреля (Ponte 25 de Abril) -->
-            <div class="bridge">
-                <div class="bridge-pillar"></div>
-                <div class="bridge-pillar"></div>
-                <div class="bridge-cable"></div>
-            </div>
-        </div>
-
-        <!-- Праздничные огни (гирлянды) -->
-        <div class="lights">
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-            <div class="light"></div>
-        </div>
-
-        <!-- Река Тежу (Rio Tejo) -->
-        <div class="tagus-river">
-            <div class="river-reflection"></div>
-        </div>
-
-        <!-- Фейерверки -->
-        <div class="fireworks" id="fireworks"></div>
-    </div>
-
-    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <!-- Фоновое слайд-шоу -->
+    <div class="background-slideshow" aria-hidden="true"></div>
+    
+    <!-- Основной контент -->
     <div class="container">
         <h1 class="title">🎄 До Нового года в Лиссабоне осталось:</h1>
-
+        
         <div class="timer" id="timer">
             <div class="timer-block">
                 <span class="timer-value" id="months">0</span>
@@ -138,5 +42,4 @@
 
     <script src="app.js"></script>
 </body>
-
 </html>
