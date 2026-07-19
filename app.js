@@ -79,43 +79,28 @@ function formatTargetDate(targetDate) {
 // ФУНКЦИЯ: Обновление таймера на странице
 // =====================================================
 function updateTimer() {
-  const targetDate = getNextNewYear();
-  const time = calculateTimeDifference(targetDate);
+    const targetDate = getNextNewYear();
+    const time = calculateTimeDifference(targetDate);
 
-  // Определяем мобильное устройство
-  const isMobile = window.innerWidth <= 768;
+    document.getElementById('months').textContent = time.months;
+    document.getElementById('days').textContent = time.days;
+    document.getElementById('hours').textContent = time.hours;
+    document.getElementById('minutes').textContent = time.minutes;
+    document.getElementById('seconds').textContent = time.seconds;
 
-  // Короткие подписи для мобильных
-  const monthsLabel = isMobile
-    ? 'мес'
-    : declension(time.months, ['месяц', 'месяца', 'месяцев']);
-  const daysLabel = isMobile
-    ? 'дн'
-    : declension(time.days, ['день', 'дня', 'дней']);
-  const hoursLabel = isMobile
-    ? 'ч'
-    : declension(time.hours, ['час', 'часа', 'часов']);
-  const minutesLabel = isMobile
-    ? 'мин'
-    : declension(time.minutes, ['минута', 'минуты', 'минут']);
-  const secondsLabel = isMobile
-    ? 'сек'
-    : declension(time.seconds, ['секунда', 'секунды', 'секунд']);
+    document.getElementById('months-label').textContent = 
+        declension(time.months, ['месяц', 'месяца', 'месяцев']);
+    document.getElementById('days-label').textContent = 
+        declension(time.days, ['день', 'дня', 'дней']);
+    document.getElementById('hours-label').textContent = 
+        declension(time.hours, ['час', 'часа', 'часов']);
+    document.getElementById('minutes-label').textContent = 
+        declension(time.minutes, ['минута', 'минуты', 'минут']);
+    document.getElementById('seconds-label').textContent = 
+        declension(time.seconds, ['секунда', 'секунды', 'секунд']);
 
-  document.getElementById('months').textContent = time.months;
-  document.getElementById('days').textContent = time.days;
-  document.getElementById('hours').textContent = time.hours;
-  document.getElementById('minutes').textContent = time.minutes;
-  document.getElementById('seconds').textContent = time.seconds;
-
-  document.getElementById('months-label').textContent = monthsLabel;
-  document.getElementById('days-label').textContent = daysLabel;
-  document.getElementById('hours-label').textContent = hoursLabel;
-  document.getElementById('minutes-label').textContent = minutesLabel;
-  document.getElementById('seconds-label').textContent = secondsLabel;
-
-  document.getElementById('target-date').textContent =
-    `🎅 Цель: ${formatTargetDate(targetDate)}`;
+    document.getElementById('target-date').textContent = 
+        `🎅 Цель: ${formatTargetDate(targetDate)}`;
 }
 
 // =====================================================
