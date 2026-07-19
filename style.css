@@ -150,7 +150,7 @@ body {
         
         z-index: 2;
         text-align: center;
-        padding: 10px 8px;
+        padding: 8px 6px;
         background: rgba(0, 0, 0, 0.55);
         border-radius: 8px;
         backdrop-filter: blur(5px);
@@ -162,36 +162,36 @@ body {
     }
     
     .title {
-        font-size: 0.85rem;
-        margin-bottom: 8px;
+        font-size: 0.8rem;
+        margin-bottom: 6px;
         text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
     }
     
     .timer {
         display: flex;
         justify-content: center;
-        gap: 4px;
-        flex-wrap: nowrap;  /* ← ВАЖНО! Все в одну линию */
+        gap: 3px;
+        flex-wrap: nowrap;
         margin-bottom: 6px;
     }
     
     .timer-block {
-        min-width: 50px;
-        padding: 6px 4px;
+        min-width: 45px;  /* ← Было 50px, уменьшили */
+        padding: 5px 3px;  /* ← Было 6px 4px, уменьшили */
         background: rgba(255, 255, 255, 0.08);
         border-radius: 6px;
         border: 1px solid rgba(255, 255, 255, 0.08);
-        flex-shrink: 0;  /* ← ВАЖНО! Не сжимать блоки */
+        flex-shrink: 0;
     }
     
     .timer-value {
-        font-size: 1.1rem;
+        font-size: 1rem;  /* ← Было 1.1rem, уменьшили */
         margin-bottom: 2px;
     }
     
     .timer-label {
-        font-size: 0.5rem;
-        letter-spacing: 0.3px;
+        font-size: 0.45rem;  /* ← Было 0.5rem, уменьшили */
+        letter-spacing: 0.2px;
     }
     
     .target-date {
