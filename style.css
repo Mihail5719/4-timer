@@ -137,16 +137,22 @@ body {
 /* =====================================================
    АДАПТИВНОСТЬ
    ===================================================== */
+/* Улучшаем отображение на мобильных */
 @media (max-width: 768px) {
+    .background-slide {
+        background-position: center top;
+        background-size: cover;
+    }
+    
     .container {
-        bottom: 20px;
+        bottom: 20px;          /* ← ВАЖНО! Сохраняем */
         padding: 15px 10px;
         max-width: 95%;
     }
     
     .title {
-        font-size: 1rem;
-        margin-bottom: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 10px;   /* ← Сохраняем */
     }
     
     .timer-block {
@@ -155,7 +161,7 @@ body {
     }
     
     .timer-value {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
     
     .timer-label {

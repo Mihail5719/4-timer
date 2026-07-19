@@ -106,8 +106,18 @@ function updateTimer() {
 // =====================================================
 // СЛАЙД-ШОУ С ФОТО ЛИССАБОНА
 // =====================================================
+// Определяем мобильное устройство
+const isMobile = window.innerWidth <= 768;
 
-const lisbonPhotos = [
+// Выбираем фото в зависимости от устройства
+const lisbonPhotos = isMobile ? [
+    'images/mobile/lisbon-1-mobile.jpg',
+    'images/mobile/lisbon-2-mobile.jpg',
+    'images/mobile/lisbon-3-mobile.jpg',
+    'images/mobile/lisbon-4-mobile.jpg',
+    'images/mobile/lisbon-5-mobile.jpg',
+    'images/mobile/lisbon-6-mobile.jpg'
+] : [
     'images/lisbon-1.jpg',
     'images/lisbon-2.jpg',
     'images/lisbon-3.jpg',
@@ -144,6 +154,19 @@ function changeSlide() {
     currentSlide = (currentSlide + 1) % lisbonPhotos.length;
     slides[currentSlide].classList.add('active');
 }
+
+// Пересоздаём слайд-шоу при изменении размера окна
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        // Проверяем, изменился ли тип устройства
+        const newIsMobile = window.innerWidth <= 768;
+        if (newIsMobile !== isMobile) {
+            location.reload(); // Перезагружаем страницу
+        }
+    }, 250);
+});
 
 // Запускаем слайд-шоу при загрузке
 initSlideshow();
