@@ -57,31 +57,29 @@ body {
     z-index: 1;
 }
 
-/* =====================================================
-   ОСНОВНОЙ КОНТЕЙНЕР
-   ===================================================== */
+/* Основной контейнер - десктоп */
 .container {
     position: fixed;
-    bottom: 30px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     
     z-index: 2;
     text-align: center;
-    padding: 20px 15px;  /* Ещё меньше отступы */
-    background: rgba(0, 0, 0, 0.5);  /* Менее тёмный, прозрачнее */
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 700px;  /* Ещё уже */
-    width: 95%;
+    max-width: 500px;
+    width: 90%;
 }
 
 .title {
-    font-size: 1.3rem;  /* Было 2rem */
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     letter-spacing: 0.5px;
 }
@@ -89,7 +87,7 @@ body {
 .timer {
     display: flex;
     justify-content: center;
-    gap: 10px;  /* Меньше расстояние */
+    gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
@@ -98,8 +96,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 70px;  /* Было 90px */
-    padding: 10px 8px;  /* Ещё меньше */
+    min-width: 60px;
+    padding: 10px 8px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -112,7 +110,7 @@ body {
 }
 
 .timer-value {
-    font-size: 1.8rem;  /* Было 2.5rem */
+    font-size: 1.5rem;
     font-weight: bold;
     color: #ffd700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
@@ -122,22 +120,22 @@ body {
 }
 
 .timer-label {
-    font-size: 0.7rem;  /* Было 0.85rem */
+    font-size: 0.6rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: rgba(255, 255, 255, 0.8);
 }
 
 .target-date {
-    font-size: 0.9rem;  /* Было 1.2rem */
+    font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.9);
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 /* =====================================================
    АДАПТИВНОСТЬ
    ===================================================== */
-/* Улучшаем отображение на мобильных */
+/* Мобильные устройства */
 @media (max-width: 768px) {
     .background-slide {
         background-position: center top;
@@ -145,27 +143,60 @@ body {
     }
     
     .container {
-        bottom: 20px;          /* ← ВАЖНО! Сохраняем */
-        padding: 15px 10px;
-        max-width: 95%;
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        z-index: 2;
+        text-align: center;
+        padding: 10px 8px;
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 8px;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        max-width: 340px;
+        width: 95%;
     }
     
     .title {
-        font-size: 0.95rem;
-        margin-bottom: 10px;   /* ← Сохраняем */
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+    }
+    
+    .timer {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+        flex-wrap: nowrap;  /* ← ВАЖНО! Все в одну линию */
+        margin-bottom: 6px;
     }
     
     .timer-block {
-        min-width: 55px;
-        padding: 8px 5px;
+        min-width: 50px;
+        padding: 6px 4px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;  /* ← ВАЖНО! Не сжимать блоки */
     }
     
     .timer-value {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
+        margin-bottom: 2px;
     }
     
     .timer-label {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
+        letter-spacing: 0.3px;
+    }
+    
+    .target-date {
+        font-size: 0.7rem;
+        margin-top: 6px;
     }
 }
 
