@@ -79,28 +79,37 @@ function formatTargetDate(targetDate) {
 // ФУНКЦИЯ: Обновление таймера на странице
 // =====================================================
 function updateTimer() {
-    const targetDate = getNextNewYear();
-    const time = calculateTimeDifference(targetDate);
+  const targetDate = getNextNewYear();
+  const time = calculateTimeDifference(targetDate);
 
-    document.getElementById('months').textContent = time.months;
-    document.getElementById('days').textContent = time.days;
-    document.getElementById('hours').textContent = time.hours;
-    document.getElementById('minutes').textContent = time.minutes;
-    document.getElementById('seconds').textContent = time.seconds;
+  // Определяем мобильное устройство
+  const isMobile = window.innerWidth <= 768;
 
-    document.getElementById('months-label').textContent = 
-        declension(time.months, ['месяц', 'месяца', 'месяцев']);
-    document.getElementById('days-label').textContent = 
-        declension(time.days, ['день', 'дня', 'дней']);
-    document.getElementById('hours-label').textContent = 
-        declension(time.hours, ['час', 'часа', 'часов']);
-    document.getElementById('minutes-label').textContent = 
-        declension(time.minutes, ['минута', 'минуты', 'минут']);
-    document.getElementById('seconds-label').textContent = 
-        declension(time.seconds, ['секунда', 'секунды', 'секунд']);
+  document.getElementById('months').textContent = time.months;
+  document.getElementById('days').textContent = time.days;
+  document.getElementById('hours').textContent = time.hours;
+  document.getElementById('minutes').textContent = time.minutes;
+  document.getElementById('seconds').textContent = time.seconds;
 
-    document.getElementById('target-date').textContent = 
-        `🎅 Цель: ${formatTargetDate(targetDate)}`;
+  // Короткие подписи для мобильных, полные — для десктопа
+  document.getElementById('months-label').textContent = isMobile
+    ? 'мес'
+    : declension(time.months, ['месяц', 'месяца', 'месяцев']);
+  document.getElementById('days-label').textContent = isMobile
+    ? 'дн'
+    : declension(time.days, ['день', 'дня', 'дней']);
+  document.getElementById('hours-label').textContent = isMobile
+    ? 'ч'
+    : declension(time.hours, ['час', 'часа', 'часов']);
+  document.getElementById('minutes-label').textContent = isMobile
+    ? 'мин'
+    : declension(time.minutes, ['минута', 'минуты', 'минут']);
+  document.getElementById('seconds-label').textContent = isMobile
+    ? 'сек'
+    : declension(time.seconds, ['секунда', 'секунды', 'секунд']);
+
+  document.getElementById('target-date').textContent =
+    `🎅 Цель: ${formatTargetDate(targetDate)}`;
 }
 
 // =====================================================
