@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таймер до Нового года — Лиссабон</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Фоновое слайд-шоу с фото Лиссабона -->
     <div class="background-slideshow" aria-hidden="true">
@@ -14,7 +16,7 @@
     <!-- Основной контент -->
     <div class="container">
         <h1 class="title">🎄 До Нового года в Лиссабоне осталось:</h1>
-        
+
         <div class="timer" id="timer">
             <div class="timer-block">
                 <span class="timer-value" id="months">0</span>
@@ -40,7 +42,10 @@
 
         <p class="target-date" id="target-date"></p>
     </div>
+    <!-- Подключаем библиотеку конфетти -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <script src="app.js"></script>
+        <script src="app.js"></script>
 </body>
+
 </html>
