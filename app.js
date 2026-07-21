@@ -2,36 +2,34 @@
 // ФУНКЦИЯ: Получение даты следующего Нового года
 // =====================================================
 function getNextNewYear() {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    return new Date(currentYear + 1, 0, 1, 0, 0, 0);
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  return new Date(currentYear + 1, 0, 1, 0, 0, 0);
 }
 
 // Флаг, чтобы конфетти выстрелило только один раз
 let confettiLaunched = false;
 
-// Функция запуска конфетти (теперь она точно в глобальной области видимости)
+// Функция запуска конфетти
 function launchConfetti() {
-    if (confettiLaunched) return; // Если уже запускали, выходим
-    confettiLaunched = true;
+  if (confettiLaunched) return;
+  confettiLaunched = true;
 
-    console.log('🎊 Запускаю конфетти!');
+  console.log('🎊 Запускаю конфетти!');
 
-    // Первый залп
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+
+  setTimeout(() => {
     confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
+      particleCount: 100,
+      spread: 100,
+      origin: { y: 0.8 },
     });
-
-    // Второй залп через 250мс (для красоты)
-    setTimeout(() => {
-        confetti({
-            particleCount: 100,
-            spread: 100,
-            origin: { y: 0.8 },
-        });
-    }, 250);
+  }, 250);
 }
 
 // =====================================================
@@ -41,15 +39,9 @@ function declension(number, forms) {
   const n = Math.abs(number) % 100;
   const n1 = n % 10;
 
-  if (n > 10 && n < 20) {
-    return forms[2];
-  }
-  if (n1 > 1 && n1 < 5) {
-    return forms[1];
-  }
-  if (n1 === 1) {
-    return forms[0];
-  }
+  if (n > 10 && n < 20) return forms[2];
+  if (n1 > 1 && n1 < 5) return forms[1];
+  if (n1 === 1) return forms[0];
   return forms[2];
 }
 
@@ -58,11 +50,11 @@ function declension(number, forms) {
 // =====================================================
 function calculateTimeDifference(targetDate) {
   const now = new Date();
-  let months = 0;
-  let days = 0;
-  let hours = 0;
-  let minutes = 0;
-  let seconds = 0;
+  let months = 0,
+    days = 0,
+    hours = 0,
+    minutes = 0,
+    seconds = 0;
 
   if (now >= targetDate) {
     targetDate = new Date(targetDate.getFullYear() + 1, 0, 1, 0, 0, 0);
@@ -95,11 +87,7 @@ function calculateTimeDifference(targetDate) {
 // ФУНКЦИЯ: Форматирование целевой даты
 // =====================================================
 function formatTargetDate(targetDate) {
-  const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return targetDate.toLocaleDateString('ru-RU', options);
 }
 
@@ -139,7 +127,6 @@ function updateTimer() {
     ['секунда', 'секунды', 'секунд'],
   );
 
-  // Проверка наступления Нового года
   if (
     time.months === 0 &&
     time.days === 0 &&
@@ -154,85 +141,132 @@ function updateTimer() {
       `🎅 Цель: ${formatTargetDate(targetDate)}`;
   }
 }
-// =====================================================
-// СЛАЙД-ШОУ С ФОТО ЛИССАБОНА
-// =====================================================
-// Определяем мобильное устройство
-const isMobile = window.innerWidth <= 768;
 
-// Выбираем фото в зависимости от устройства
-const lisbonPhotos = isMobile
-  ? [
-      'images/mobile/lisbon-1-mobile.jpg',
-      'images/mobile/lisbon-2-mobile.jpg',
-      'images/mobile/lisbon-3-mobile.jpg',
-      'images/mobile/lisbon-4-mobile.jpg',
-      'images/mobile/lisbon-5-mobile.jpg',
-      'images/mobile/lisbon-6-mobile.jpg',
-    ]
-  : [
-      'images/lisbon-1.jpg',
-      'images/lisbon-2.jpg',
-      'images/lisbon-3.jpg',
-      'images/lisbon-4.jpg',
-      'images/lisbon-5.jpg',
-      'images/lisbon-6.jpg',
-    ];
+// =====================================================
+// СЛАЙД-ШОУ С ФОТО ЛИССАБОНА (ДЕНЬ / НОЧЬ)
+// =====================================================
+
+// 1. Переменная состояния ночного режима
+let isNightMode = false;
+
+// 2. Массивы фотографий
+const dayPhotos = [
+  'images/lisbon-1.jpg',
+  'images/lisbon-2.jpg',
+  'images/lisbon-3.jpg',
+  'images/lisbon-4.jpg',
+  'images/lisbon-5.jpg',
+  'images/lisbon-6.jpg',
+];
+
+const nightPhotos = [
+  'images/lisbon-night-1.jpg',
+  'images/lisbon-night-2.jpg',
+  'images/lisbon-night-3.jpg',
+  'images/lisbon-night-4.jpg',
+  'images/lisbon-night-5.jpg',
+  'images/lisbon-night-6.jpg',
+];
+
+const dayPhotosMobile = [
+  'images/mobile/lisbon-1-mobile.jpg',
+  'images/mobile/lisbon-2-mobile.jpg',
+  'images/mobile/lisbon-3-mobile.jpg',
+  'images/mobile/lisbon-4-mobile.jpg',
+  'images/mobile/lisbon-5-mobile.jpg',
+  'images/mobile/lisbon-6-mobile.jpg',
+];
+
+const nightPhotosMobile = [
+  'images/mobile/lisbon-night-1-mobile.jpg',
+  'images/mobile/lisbon-night-2-mobile.jpg',
+  'images/mobile/lisbon-night-3-mobile.jpg',
+  'images/mobile/lisbon-night-4-mobile.jpg',
+  'images/mobile/lisbon-night-5-mobile.jpg',
+  'images/mobile/lisbon-night-6-mobile.jpg',
+];
+
+// 3. Функция получения нужного набора фото
+function getCurrentPhotoSet() {
+  const currentIsMobile = window.innerWidth <= 768;
+  if (isNightMode) {
+    return currentIsMobile ? nightPhotosMobile : nightPhotos;
+  } else {
+    return currentIsMobile ? dayPhotosMobile : dayPhotos;
+  }
+}
 
 let currentSlide = 0;
 
 function initSlideshow() {
   const slideshowContainer = document.querySelector('.background-slideshow');
+  const photos = getCurrentPhotoSet(); // Берём актуальный набор
 
   // Создаём слайды
-  lisbonPhotos.forEach((photoUrl, index) => {
+  photos.forEach((photoUrl, index) => {
     const slide = document.createElement('div');
     slide.className = 'background-slide';
     slide.style.backgroundImage = `url(${photoUrl})`;
-
-    if (index === 0) {
-      slide.classList.add('active');
-    }
-
+    if (index === 0) slide.classList.add('active');
     slideshowContainer.appendChild(slide);
   });
 }
 
 function changeSlide() {
   const slides = document.querySelectorAll('.background-slide');
-
   if (slides.length === 0) return;
 
   slides[currentSlide].classList.remove('active');
-  currentSlide = (currentSlide + 1) % lisbonPhotos.length;
+  currentSlide = (currentSlide + 1) % slides.length;
   slides[currentSlide].classList.add('active');
 }
 
-// Пересоздаём слайд-шоу при изменении размера окна
+// 4. Обработчик переключателя День/Ночь
+const themeSwitch = document.getElementById('theme-switch');
+if (themeSwitch) {
+  themeSwitch.addEventListener('change', function () {
+    isNightMode = this.checked;
+    const newPhotos = getCurrentPhotoSet();
+    const slides = document.querySelectorAll('.background-slide');
+
+    // Мгновенно меняем фон у всех слайдов на новые фото
+    slides.forEach((slide, index) => {
+      slide.style.backgroundImage = `url(${newPhotos[index]})`;
+    });
+
+    // Сбрасываем на первый слайд для плавного перехода
+    slides.forEach((slide) => slide.classList.remove('active'));
+    currentSlide = 0;
+    slides[currentSlide].classList.add('active');
+
+    console.log(
+      isNightMode ? '🌙 Ночной режим включён' : '☀️ Дневной режим включён',
+    );
+  });
+}
+
+// Пересоздаём слайд-шоу при изменении размера окна (если мобильный стал десктопом и наоборот)
 let resizeTimer;
 window.addEventListener('resize', function () {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(function () {
-    // Проверяем, изменился ли тип устройства
     const newIsMobile = window.innerWidth <= 768;
-    if (newIsMobile !== isMobile) {
-      location.reload(); // Перезагружаем страницу
+    const oldIsMobile =
+      getCurrentPhotoSet() === dayPhotosMobile ||
+      getCurrentPhotoSet() === nightPhotosMobile;
+
+    if (newIsMobile !== oldIsMobile) {
+      location.reload();
     }
   }, 250);
 });
 
 // Запускаем слайд-шоу при загрузке
 initSlideshow();
-
-// Меняем фото каждые 8 секунд
-setInterval(changeSlide, 8000);
+setInterval(changeSlide, 8000); // Меняем фото каждые 8 секунд
 
 // =====================================================
 // ЗАПУСК ТАЙМЕРА
 // =====================================================
-
-updateTimer(); // Первый запуск сразу, чтобы не ждать 1 секунду до появления цифр
-setInterval(updateTimer, 1000); // Обновление каждую секунду (1000 мс)
-
-
-
+updateTimer();
+setInterval(updateTimer, 1000);
