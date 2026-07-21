@@ -1,16 +1,163 @@
 // =====================================================
-// ФУНКЦИЯ: Получение даты следующего Нового года
+// НАСТРОЙКИ ГОРОДОВ И ПЕРЕМЕННЫЕ
 // =====================================================
-function getNextNewYear() {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  return new Date(currentYear + 1, 0, 1, 0, 0, 0);
-}
+
+// Текущий город (читаем из памяти или ставим Лиссабон по умолчанию)
+let currentCity = localStorage.getItem('selectedCity') || 'lisbon';
+
+// Текущий режим (false = день, true = ночь)
+let isNightMode = localStorage.getItem('lisbonTheme') === 'night';
 
 // Флаг, чтобы конфетти выстрелило только один раз
 let confettiLaunched = false;
 
-// Функция запуска конфетти
+// База данных городов (часовые пояса в часах относительно UTC)
+const cities = {
+  lisbon: {
+    name: 'Лиссабоне',
+    flag: '🇵🇹',
+    timezone: 0, // UTC+0
+    photos: {
+      day: [
+        'images/lisbon-1.jpg',
+        'images/lisbon-2.jpg',
+        'images/lisbon-3.jpg',
+        'images/lisbon-4.jpg',
+        'images/lisbon-5.jpg',
+        'images/lisbon-6.jpg',
+      ],
+      night: [
+        'images/lisbon-night-1.jpg',
+        'images/lisbon-night-2.jpg',
+        'images/lisbon-night-3.jpg',
+        'images/lisbon-night-4.jpg',
+        'images/lisbon-night-5.jpg',
+        'images/lisbon-night-6.jpg',
+      ],
+    },
+    photosMobile: {
+      day: [
+        'images/mobile/lisbon-1-mobile.jpg',
+        'images/mobile/lisbon-2-mobile.jpg',
+        'images/mobile/lisbon-3-mobile.jpg',
+        'images/mobile/lisbon-4-mobile.jpg',
+        'images/mobile/lisbon-5-mobile.jpg',
+        'images/mobile/lisbon-6-mobile.jpg',
+      ],
+      night: [
+        'images/mobile/lisbon-night-1-mobile.jpg',
+        'images/mobile/lisbon-night-2-mobile.jpg',
+        'images/mobile/lisbon-night-3-mobile.jpg',
+        'images/mobile/lisbon-night-4-mobile.jpg',
+        'images/mobile/lisbon-night-5-mobile.jpg',
+        'images/mobile/lisbon-night-6-mobile.jpg',
+      ],
+    },
+  },
+  moscow: {
+    name: 'Москве',
+    flag: '🇷🇺',
+    timezone: 3, // UTC+3
+    photos: {
+      day: [
+        'images/moscow-1.jpg',
+        'images/moscow-2.jpg',
+        'images/moscow-3.jpg',
+        'images/moscow-4.jpg',
+        'images/moscow-5.jpg',
+        'images/moscow-6.jpg',
+      ],
+      night: [
+        'images/moscow-night-1.jpg',
+        'images/moscow-night-2.jpg',
+        'images/moscow-night-3.jpg',
+        'images/moscow-night-4.jpg',
+        'images/moscow-night-5.jpg',
+        'images/moscow-night-6.jpg',
+      ],
+    },
+    photosMobile: {
+      day: [
+        'images/mobile/moscow-1-mobile.jpg',
+        'images/mobile/moscow-2-mobile.jpg',
+        'images/mobile/moscow-3-mobile.jpg',
+        'images/mobile/moscow-4-mobile.jpg',
+        'images/mobile/moscow-5-mobile.jpg',
+        'images/mobile/moscow-6-mobile.jpg',
+      ],
+      night: [
+        'images/mobile/moscow-night-1-mobile.jpg',
+        'images/mobile/moscow-night-2-mobile.jpg',
+        'images/mobile/moscow-night-3-mobile.jpg',
+        'images/mobile/moscow-night-4-mobile.jpg',
+        'images/mobile/moscow-night-5-mobile.jpg',
+        'images/mobile/moscow-night-6-mobile.jpg',
+      ],
+    },
+  },
+  newyork: {
+    name: 'Нью-Йорке',
+    flag: '🇺🇸',
+    timezone: -5, // UTC-5
+    photos: {
+      day: [
+        'images/newyork-1.jpg',
+        'images/newyork-2.jpg',
+        'images/newyork-3.jpg',
+        'images/newyork-4.jpg',
+        'images/newyork-5.jpg',
+        'images/newyork-6.jpg',
+      ],
+      night: [
+        'images/newyork-night-1.jpg',
+        'images/newyork-night-2.jpg',
+        'images/newyork-night-3.jpg',
+        'images/newyork-night-4.jpg',
+        'images/newyork-night-5.jpg',
+        'images/newyork-night-6.jpg',
+      ],
+    },
+    photosMobile: {
+      day: [
+        'images/mobile/newyork-1-mobile.jpg',
+        'images/mobile/newyork-2-mobile.jpg',
+        'images/mobile/newyork-3-mobile.jpg',
+        'images/mobile/newyork-4-mobile.jpg',
+        'images/mobile/newyork-5-mobile.jpg',
+        'images/mobile/newyork-6-mobile.jpg',
+      ],
+      night: [
+        'images/mobile/newyork-night-1-mobile.jpg',
+        'images/mobile/newyork-night-2-mobile.jpg',
+        'images/mobile/newyork-night-3-mobile.jpg',
+        'images/mobile/newyork-night-4-mobile.jpg',
+        'images/mobile/newyork-night-5-mobile.jpg',
+        'images/mobile/newyork-night-6-mobile.jpg',
+      ],
+    },
+  },
+};
+
+// =====================================================
+// ФУНКЦИЯ: Получение даты следующего Нового года (с учётом часового пояса)
+// =====================================================
+function getNextNewYear() {
+  const city = cities[currentCity];
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  // Создаем дату 1 января следующего года в UTC (полночь)
+  const targetUTC = new Date(Date.UTC(currentYear + 1, 0, 1, 0, 0, 0));
+
+  // Корректируем на часовой пояс города
+  targetUTC.setHours(targetUTC.getHours() - city.timezone);
+
+  return targetUTC;
+}
+
+// =====================================================
+// ФУНКЦИЯ: Запуск конфетти
+// =====================================================
 function launchConfetti() {
   if (confettiLaunched) return;
   confettiLaunched = true;
@@ -97,6 +244,11 @@ function formatTargetDate(targetDate) {
 function updateTimer() {
   const targetDate = getNextNewYear();
   const time = calculateTimeDifference(targetDate);
+  const city = cities[currentCity];
+
+  // Обновляем заголовок города
+  document.getElementById('city-title').textContent =
+    `🎄 До Нового года в ${city.name} осталось:`;
 
   document.getElementById('months').textContent = time.months;
   document.getElementById('days').textContent = time.days;
@@ -143,71 +295,31 @@ function updateTimer() {
 }
 
 // =====================================================
-// СЛАЙД-ШОУ С ФОТО ЛИССАБОНА (ДЕНЬ / НОЧЬ)
+// СЛАЙД-ШОУ С ФОТО (ДЕНЬ / НОЧЬ + ГОРОДА)
 // =====================================================
 
-// 1. Переменная состояния ночного режима
-// Проверяем, есть ли сохраненная настройка в браузере. Если нет — по умолчанию 'day' (false)
-let isNightMode = localStorage.getItem('lisbonTheme') === 'night';
-
-// 2. Массивы фотографий
-const dayPhotos = [
-  'images/lisbon-1.jpg',
-  'images/lisbon-2.jpg',
-  'images/lisbon-3.jpg',
-  'images/lisbon-4.jpg',
-  'images/lisbon-5.jpg',
-  'images/lisbon-6.jpg',
-];
-
-const nightPhotos = [
-  'images/lisbon-night-1.jpg',
-  'images/lisbon-night-2.jpg',
-  'images/lisbon-night-3.jpg',
-  'images/lisbon-night-4.jpg',
-  'images/lisbon-night-5.jpg',
-  'images/lisbon-night-6.jpg',
-];
-
-const dayPhotosMobile = [
-  'images/mobile/lisbon-1-mobile.jpg',
-  'images/mobile/lisbon-2-mobile.jpg',
-  'images/mobile/lisbon-3-mobile.jpg',
-  'images/mobile/lisbon-4-mobile.jpg',
-  'images/mobile/lisbon-5-mobile.jpg',
-  'images/mobile/lisbon-6-mobile.jpg',
-];
-
-const nightPhotosMobile = [
-  'images/mobile/lisbon-night-1-mobile.jpg',
-  'images/mobile/lisbon-night-2-mobile.jpg',
-  'images/mobile/lisbon-night-3-mobile.jpg',
-  'images/mobile/lisbon-night-4-mobile.jpg',
-  'images/mobile/lisbon-night-5-mobile.jpg',
-  'images/mobile/lisbon-night-6-mobile.jpg',
-];
-
-// 3. Функция получения нужного набора фото
+// Функция получения нужного набора фото
 function getCurrentPhotoSet() {
   const currentIsMobile = window.innerWidth <= 768;
-  if (isNightMode) {
-    return currentIsMobile ? nightPhotosMobile : nightPhotos;
-  } else {
-    return currentIsMobile ? dayPhotosMobile : dayPhotos;
-  }
+  const city = cities[currentCity];
+  const photoSet = currentIsMobile ? city.photosMobile : city.photos;
+  return isNightMode ? photoSet.night : photoSet.day;
 }
 
 let currentSlide = 0;
 
 function initSlideshow() {
   const slideshowContainer = document.querySelector('.background-slideshow');
-  const photos = getCurrentPhotoSet(); // Берём актуальный набор
+  const photos = getCurrentPhotoSet();
+
+  // Очищаем старые слайды
+  slideshowContainer.innerHTML = '';
 
   // Создаём слайды
   photos.forEach((photoUrl, index) => {
     const slide = document.createElement('div');
     slide.className = 'background-slide';
-    slide.style.backgroundImage = `url(${photoUrl})`;
+    slide.style.backgroundImage = `url('${photoUrl}')`;
     if (index === 0) slide.classList.add('active');
     slideshowContainer.appendChild(slide);
   });
@@ -222,23 +334,24 @@ function changeSlide() {
   slides[currentSlide].classList.add('active');
 }
 
-// 4. Обработчик переключателя День/Ночь
+// =====================================================
+// ОБРАБОТЧИКИ СОБЫТИЙ
+// =====================================================
+
+// 1. Переключатель День/Ночь
 const themeSwitch = document.getElementById('theme-switch');
 if (themeSwitch) {
-  // Устанавливаем положение переключателя согласно сохраненной настройке
   themeSwitch.checked = isNightMode;
 
   themeSwitch.addEventListener('change', function () {
     isNightMode = this.checked;
-
-    // !!! ДОБАВЬТЕ ЭТУ СТРОКУ: Сохраняем выбор в память браузера !!!
     localStorage.setItem('lisbonTheme', isNightMode ? 'night' : 'day');
 
     const newPhotos = getCurrentPhotoSet();
     const slides = document.querySelectorAll('.background-slide');
 
     slides.forEach((slide, index) => {
-      slide.style.backgroundImage = `url(${newPhotos[index]})`;
+      slide.style.backgroundImage = `url('${newPhotos[index]}')`;
     });
 
     slides.forEach((slide) => slide.classList.remove('active'));
@@ -251,15 +364,48 @@ if (themeSwitch) {
   });
 }
 
-// Пересоздаём слайд-шоу при изменении размера окна (если мобильный стал десктопом и наоборот)
+// 2. Переключатель городов
+const cityButtons = document.querySelectorAll('.city-btn');
+cityButtons.forEach((btn) => {
+  // Устанавливаем активную кнопку при загрузке
+  if (btn.dataset.city === currentCity) {
+    btn.classList.add('active');
+  }
+
+  btn.addEventListener('click', function () {
+    const newCity = this.dataset.city;
+    if (newCity === currentCity) return; // Уже выбран
+
+    currentCity = newCity;
+    localStorage.setItem('selectedCity', currentCity);
+
+    // Обновляем активную кнопку
+    cityButtons.forEach((b) => b.classList.remove('active'));
+    this.classList.add('active');
+
+    // Перезапускаем слайд-шоу с новыми фото
+    currentSlide = 0;
+    initSlideshow();
+
+    // Сбрасываем флаг конфетти для нового города
+    confettiLaunched = false;
+
+    // Обновляем таймер (он сам обновит заголовок)
+    updateTimer();
+
+    console.log(`🌍 Город изменён на: ${cities[currentCity].name}`);
+  });
+});
+
+// 3. Пересоздаём слайд-шоу при изменении размера окна (мобильный <-> десктоп)
 let resizeTimer;
 window.addEventListener('resize', function () {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(function () {
     const newIsMobile = window.innerWidth <= 768;
-    const oldIsMobile =
-      getCurrentPhotoSet() === dayPhotosMobile ||
-      getCurrentPhotoSet() === nightPhotosMobile;
+    const oldIsMobile = getCurrentPhotoSet().some((url) =>
+      url.includes('mobile'),
+    );
 
     if (newIsMobile !== oldIsMobile) {
       location.reload();
@@ -267,12 +413,11 @@ window.addEventListener('resize', function () {
   }, 250);
 });
 
-// Запускаем слайд-шоу при загрузке
+// =====================================================
+// ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+// =====================================================
 initSlideshow();
 setInterval(changeSlide, 8000); // Меняем фото каждые 8 секунд
 
-// =====================================================
-// ЗАПУСК ТАЙМЕРА
-// =====================================================
-updateTimer();
-setInterval(updateTimer, 1000);
+updateTimer(); // Первый запуск таймера сразу
+setInterval(updateTimer, 1000); // Обновление каждую секунду
