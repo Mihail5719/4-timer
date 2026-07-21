@@ -147,7 +147,8 @@ function updateTimer() {
 // =====================================================
 
 // 1. Переменная состояния ночного режима
-let isNightMode = false;
+// Проверяем, есть ли сохраненная настройка в браузере. Если нет — по умолчанию 'day' (false)
+let isNightMode = localStorage.getItem('lisbonTheme') === 'night';
 
 // 2. Массивы фотографий
 const dayPhotos = [
@@ -224,17 +225,22 @@ function changeSlide() {
 // 4. Обработчик переключателя День/Ночь
 const themeSwitch = document.getElementById('theme-switch');
 if (themeSwitch) {
+  // Устанавливаем положение переключателя согласно сохраненной настройке
+  themeSwitch.checked = isNightMode;
+
   themeSwitch.addEventListener('change', function () {
     isNightMode = this.checked;
+
+    // !!! ДОБАВЬТЕ ЭТУ СТРОКУ: Сохраняем выбор в память браузера !!!
+    localStorage.setItem('lisbonTheme', isNightMode ? 'night' : 'day');
+
     const newPhotos = getCurrentPhotoSet();
     const slides = document.querySelectorAll('.background-slide');
 
-    // Мгновенно меняем фон у всех слайдов на новые фото
     slides.forEach((slide, index) => {
       slide.style.backgroundImage = `url(${newPhotos[index]})`;
     });
 
-    // Сбрасываем на первый слайд для плавного перехода
     slides.forEach((slide) => slide.classList.remove('active'));
     currentSlide = 0;
     slides[currentSlide].classList.add('active');
