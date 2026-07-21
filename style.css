@@ -132,6 +132,73 @@ body {
     margin-top: 8px;
 }
 
+/* Переключатель День/Ночь */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.theme-label {
+    font-size: 1.2rem;
+}
+
+/* Стили тумблера */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #87CEEB; /* Голубой (день) */
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2C3E50; /* Тёмный (ночь) */
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.slider.round {
+    border-radius: 26px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
 /* =====================================================
    АДАПТИВНОСТЬ
    ===================================================== */
@@ -199,6 +266,28 @@ body {
     .target-date {
         font-size: 0.65rem;
         margin-top: 4px;
+    }
+
+    .theme-toggle {
+        margin-top: 10px;
+    }
+    
+    .theme-label {
+        font-size: 1rem;
+    }
+    
+    .switch {
+        width: 40px;
+        height: 22px;
+    }
+    
+    .slider:before {
+        height: 16px;
+        width: 16px;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(18px);
     }
 }
 
