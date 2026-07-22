@@ -68,7 +68,23 @@
                 🔇
             </button>
         </div>
-
+        <!-- Инструкция по звуку -->
+        <div class="sound-instruction">
+            <div class="instruction-header" onclick="toggleInstruction()">
+                <span> Как услышать куранты?</span>
+                <span class="instruction-icon" id="instruction-icon">▼</span>
+            </div>
+            <div class="instruction-content" id="instruction-content">
+                <p><strong>Чтобы услышать бой курантов и новогоднюю музыку:</strong></p>
+                <ol>
+                    <li>Нажмите кнопку <span class="sound-icon">🔇</span> справа от таймера</li>
+                    <li>Иконка изменится на <span class="sound-icon">🔊</span> — звук включен</li>
+                    <li>За <strong>41 секунду</strong> до полуночи начнут бить куранты</li>
+                    <li>В <strong>00:00:00</strong> — салют из конфетти! 🎊</li>
+                </ol>
+                <p class="instruction-note">💡 Музыка играет тихо на фоне. Куранты звучат громче.</p>
+            </div>
+        </div>
         <!-- Аудио элементы (скрытые) -->
         <audio id="chimes-audio" loop>
             <source src="audio/chimes.mp3" type="audio/mpeg">
