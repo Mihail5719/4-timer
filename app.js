@@ -483,6 +483,33 @@ function playChimes() {
   console.log('🔔 Бой курантов!');
 }
 
+// Переключение видимости инструкции
+function toggleInstruction() {
+    const content = document.getElementById('instruction-content');
+    const icon = document.getElementById('instruction-icon');
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.classList.add('rotated');
+    } else {
+        content.classList.add('hidden');
+        icon.classList.remove('rotated');
+    }
+}
+
+// По умолчанию инструкция свернута (опционально)
+// Раскомментируйте, если хотите чтобы она была скрыта при загрузке:
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    const content = document.getElementById('instruction-content');
+    const icon = document.getElementById('instruction-icon');
+    if (content && icon) {
+        content.classList.add('hidden');
+        icon.classList.add('rotated');
+    }
+});
+*/
+
 // =====================================================
 // ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
 // =====================================================

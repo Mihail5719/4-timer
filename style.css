@@ -192,6 +192,96 @@ body {
     border-color: rgba(255, 255, 255, 0.6);
 }
 
+/* Инструкция по звуку */
+.sound-instruction {
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.instruction-header {
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    transition: background 0.3s ease;
+    user-select: none;
+}
+
+.instruction-header:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.instruction-header span:first-child {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.instruction-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.instruction-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.instruction-content {
+    padding: 15px;
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+.instruction-content.hidden {
+    display: none;
+}
+
+.instruction-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.instruction-content li {
+    margin: 8px 0;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.sound-icon {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.instruction-note {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* Стили тумблера */
 .switch {
@@ -392,6 +482,19 @@ input:checked + .slider:before {
     transform: translateX(18px);
   }
 }
+
+.sound-instruction {
+        width: 98%;
+        font-size: 0.85rem;
+    }
+    
+    .instruction-content ol {
+        padding-left: 15px;
+    }
+    
+    .instruction-content li {
+        margin: 5px 0;
+    }
 
 @media (max-width: 480px) {
   .timer {
