@@ -419,10 +419,75 @@ window.addEventListener('resize', function () {
 });
 
 // =====================================================
+// УПРАВЛЕНИЕ ЗВУКОМ
+// =====================================================
+
+const chimesAudio = document.getElementById('chimes-audio');
+const musicAudio = document.getElementById('music-audio');
+const soundToggle = document.getElementById('sound-toggle');
+
+// Читаем состояние звука из localStorage
+let isSoundEnabled = localStorage.getItem('soundEnabled') === 'true';
+
+// Обновляем кнопку при загрузке
+if (soundToggle) {
+    if (isSoundEnabled) {
+        soundToggle.textContent = '🔊';
+        soundToggle.classList.add('active');
+        musicAudio.volume = 0.3;
+        
+        // Пытаемся запустить. Если браузер блокирует — честно выключаем кнопку
+        musicAudio.play().catch(e => {
+            console.log('Браузер заблокировал автовоспроизведение. Требуется клик.');
+            isSoundEnabled = false;
+            localStorage.setItem('soundEnabled', 'false');
+            soundToggle.textContent = '🔇';
+            soundToggle.classList.remove('active');
+        });
+    } else {
+        soundToggle.textContent = '🔇';
+    }
+}
+
+// Обработчик кнопки звука
+if (soundToggle) {
+  soundToggle.addEventListener('click', function () {
+    isSoundEnabled = !isSoundEnabled;
+    localStorage.setItem('soundEnabled', isSoundEnabled);
+
+    this.textContent = isSoundEnabled ? '🔊' : '🔇';
+    this.classList.toggle('active');
+
+    if (isSoundEnabled) {
+      musicAudio.volume = 0.3;
+      musicAudio
+        .play()
+        .catch((e) => console.log('Автовоспроизведение заблокировано'));
+    } else {
+      musicAudio.pause();
+      chimesAudio.pause();
+    }
+  });
+}
+
+// Функция воспроизведения курантов
+function playChimes() {
+  if (!isSoundEnabled) return;
+
+  chimesAudio.currentTime = 0;
+  chimesAudio.volume = 0.8;
+  chimesAudio
+    .play()
+    .catch((e) => console.log('Не удалось воспроизвести куранты'));
+
+  console.log('🔔 Бой курантов!');
+}
+
+// =====================================================
 // ЗАПУСК ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
 // =====================================================
 initSlideshow();
-setInterval(changeSlide, 8000); // Меняем фото каждые 8 секунд
+setInterval(changeSlide, 8000);
 
-updateTimer(); // Первый запуск таймера сразу
-setInterval(updateTimer, 1000); // Обновление каждую секунду
+updateTimer();
+setInterval(updateTimer, 1000);

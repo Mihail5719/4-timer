@@ -164,6 +164,35 @@ body {
   font-size: 1.2rem;
 }
 
+/* Кнопка звука */
+.sound-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sound-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sound-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+}
+
+.sound-btn.active {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+
 /* Стили тумблера */
 .switch {
   position: relative;
