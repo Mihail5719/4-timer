@@ -234,8 +234,13 @@ function calculateTimeDifference(targetDate) {
 // ФУНКЦИЯ: Форматирование целевой даты
 // =====================================================
 function formatTargetDate(targetDate) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return targetDate.toLocaleDateString('ru-RU', options);
+  // Всегда показываем "1 января [год]", независимо от часового пояса устройства
+  // Если из-за часового пояса дата сдвинулась на 31 декабря, берем следующий год
+  const year =
+    targetDate.getMonth() === 11 && targetDate.getDate() === 31
+      ? targetDate.getFullYear() + 1
+      : targetDate.getFullYear();
+  return `1 января ${year} г.`;
 }
 
 // =====================================================
